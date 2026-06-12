@@ -4,6 +4,7 @@ import { DISTRICTS } from "@/lib/game/data";
 import { isDistrictUnlocked } from "@/lib/game/engine";
 import type { PlayerState } from "@/lib/game/types";
 import { Hud } from "./Hud";
+import { Meter } from "./Meter";
 
 export function WorldMap({
   player,
@@ -51,12 +52,11 @@ export function WorldMap({
                     <span>平和度</span>
                     <span>{peace}%</span>
                   </div>
-                  <div className="h-3 border-2 border-ink bg-white/70 overflow-hidden">
-                    <div
-                      className={cleared ? "h-full bg-emerald-500" : "h-full bg-blood"}
-                      style={{ width: `${peace}%` }}
-                    />
-                  </div>
+                  <Meter
+                    ratio={peace / 100}
+                    fill={cleared ? "bg-emerald-500" : "bg-blood"}
+                    className="h-3 border-2 border-ink bg-white/70"
+                  />
                 </div>
 
                 <div className="mt-3">

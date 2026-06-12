@@ -1,6 +1,7 @@
 "use client";
 
 import type { Enemy, ResultSummary } from "@/lib/game/types";
+import { Meter } from "./Meter";
 
 function Delta({ value }: { value: number }) {
   if (value === 0) return <span className="text-ink/50">±0</span>;
@@ -55,9 +56,11 @@ export function Result({
                   {summary.peaceBefore}% → {summary.peaceAfter}%
                 </span>
               </div>
-              <div className="h-2.5 border-2 border-ink bg-white/70 overflow-hidden">
-                <div className="h-full bg-blood transition-all" style={{ width: `${summary.peaceAfter}%` }} />
-              </div>
+              <Meter
+                ratio={summary.peaceAfter / 100}
+                fill="bg-blood transition-all"
+                className="h-2.5 border-2 border-ink bg-white/70"
+              />
             </div>
           )}
 

@@ -2,6 +2,7 @@
 
 import { maxHp, otokogiTier, xpForNext } from "@/lib/game/engine";
 import type { PlayerState } from "@/lib/game/types";
+import { Meter } from "./Meter";
 
 export function OtokogiBar({ value, compact = false }: { value: number; compact?: boolean }) {
   const tier = otokogiTier(value);
@@ -15,12 +16,11 @@ export function OtokogiBar({ value, compact = false }: { value: number; compact?
           {!compact && <span className="font-bold ml-1 text-ink/60">{value}</span>}
         </span>
       </div>
-      <div className="h-3 border-2 border-ink bg-white/70 overflow-hidden">
-        <div
-          className={danger ? "h-full bg-blood transition-all" : "h-full bg-gold transition-all"}
-          style={{ width: `${Math.max(0, Math.min(100, value))}%` }}
-        />
-      </div>
+      <Meter
+        ratio={value / 100}
+        fill={danger ? "bg-blood transition-all" : "bg-gold transition-all"}
+        className="h-3 border-2 border-ink bg-white/70"
+      />
     </div>
   );
 }
