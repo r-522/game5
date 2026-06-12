@@ -38,7 +38,6 @@ export function Title({
           maxLength={12}
           placeholder="例：不死身の○○"
           className="w-full border-3 border-ink rounded-sm px-3 py-2 font-bold bg-white outline-none focus:bg-gold/20"
-          style={{ borderWidth: 3 }}
           onKeyDown={(e) => {
             if (e.key === "Enter" && name.trim()) onStart(name);
           }}

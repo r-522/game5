@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/server";
+import { playerToRow } from "@/lib/supabase/players";
 import { normalizePlayer } from "@/lib/game/engine";
 
 export const runtime = "nodejs";
@@ -15,18 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, configured: true, error: "missing id/name" }, { status: 400 });
     }
     const p = normalizePlayer(body);
-    const { error } = await client.from("knk_players").upsert({
-      id: p.id,
-      name: p.name,
-      otokogi: p.otokogi,
-      bancho_do: p.banchoDo,
-      kenka_nare: p.kenkaNare,
-      wins: p.wins,
-      equipped: p.equipped,
-      unlocked: p.unlocked,
-      territories: p.territories,
-      updated_at: p.updatedAt,
-    });
+    const { error } = await client.from("knk_players").upsert(playerToRow(p));
     if (error) {
       return NextResponse.json({ ok: false, configured: true, error: error.message }, { status: 500 });
     }

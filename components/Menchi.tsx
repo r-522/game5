@@ -1,11 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { menchiPower } from "@/lib/game/engine";
+import { MENCHI, menchiEnemyRate, menchiTapPush } from "@/lib/game/engine";
 import type { Enemy, PlayerState } from "@/lib/game/types";
+import { Meter } from "./Meter";
 
 // メンチビーム：連打で光線のせめぎ合いを相手側へ押し込む。
-// pos 50=中央。100へ押し込めば勝ち(>=82)、18以下で負け。男気が高いほど一発が重い。
+// しきい値・押し込み量などの調整値は lib/game/engine.ts の MENCHI に集約。
 export function Menchi({
   player,
   enemy,
@@ -17,7 +18,7 @@ export function Menchi({
   isBoss: boolean;
   onDone: (win: boolean) => void;
 }) {
-  const DURATION = 4500;
+  const DURATION = MENCHI.DURATION_MS;
   const posRef = useRef(50);
   const elapsedRef = useRef(0);
   const lastRef = useRef(0);
@@ -30,8 +31,8 @@ export function Menchi({
   const [timeLeft, setTimeLeft] = useState(DURATION);
   const [resultWin, setResultWin] = useState<boolean | null>(null);
 
-  const tapPush = 5.5 * menchiPower(player);
-  const enemyRate = (isBoss ? 17 : 11) + enemy.power * 0.5;
+  const tapPush = menchiTapPush(player);
+  const enemyRate = menchiEnemyRate(enemy, isBoss);
 
   const finish = useCallback(
     (win: boolean) => {
@@ -39,7 +40,7 @@ export function Menchi({
       doneRef.current = true;
       cancelAnimationFrame(rafRef.current);
       setResultWin(win);
-      timeoutRef.current = setTimeout(() => onDone(win), 700);
+      timeoutRef.current = setTimeout(() => onDone(win), MENCHI.RESULT_DELAY_MS);
     },
     [onDone],
   );
@@ -61,8 +62,8 @@ export function Menchi({
       setPos(posRef.current);
       setTimeLeft(Math.max(0, DURATION - elapsedRef.current));
 
-      if (posRef.current >= 82) return finish(true);
-      if (posRef.current <= 18) return finish(false);
+      if (posRef.current >= MENCHI.WIN_POS) return finish(true);
+      if (posRef.current <= MENCHI.LOSE_POS) return finish(false);
       if (elapsedRef.current >= DURATION) return finish(posRef.current > 50);
       rafRef.current = requestAnimationFrame(loop);
     };
@@ -95,9 +96,11 @@ export function Menchi({
       <p className="relative text-xs text-paper/60 mb-4">連打でメンチビームを相手に押し返せ（Space / 連打）</p>
 
       {/* タイマー */}
-      <div className="relative w-full max-w-xl h-2 border-2 border-paper/40 mb-6">
-        <div className="h-full bg-gold transition-none" style={{ width: `${(timeLeft / DURATION) * 100}%` }} />
-      </div>
+      <Meter
+        ratio={timeLeft / DURATION}
+        fill="bg-gold transition-none"
+        className="relative w-full max-w-xl h-2 border-2 border-paper/40 mb-6"
+      />
 
       {/* せめぎ合い */}
       <div className="relative w-full max-w-xl h-32 flex items-center">

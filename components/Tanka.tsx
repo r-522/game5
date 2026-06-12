@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { TANKA } from "@/lib/game/engine";
 import type { Enemy, TankaOption } from "@/lib/game/types";
+import { Meter } from "./Meter";
 
 function shuffle<T>(a: T[]): T[] {
   const r = [...a];
@@ -20,7 +22,7 @@ export function Tanka({
   enemy: Enemy;
   onDone: (r: { correct: boolean; ura: boolean }) => void;
 }) {
-  const DURATION = 6000;
+  const DURATION = TANKA.DURATION_MS;
   const prov = useMemo(
     () => enemy.provocations[Math.floor(Math.random() * enemy.provocations.length)],
     [enemy],
@@ -42,7 +44,7 @@ export function Tanka({
     const opt = idx === null ? undefined : options[idx];
     timeoutRef.current = setTimeout(
       () => onDone({ correct: Boolean(opt?.correct), ura: Boolean(opt?.ura) }),
-      950,
+      TANKA.RESULT_DELAY_MS,
     );
   };
 
@@ -80,12 +82,11 @@ export function Tanka({
       <p className="relative font-black text-gold text-lg">― タンカを切れ！ ―</p>
 
       {/* タイマー */}
-      <div className="relative w-full max-w-lg h-2 border-2 border-paper/40 my-3">
-        <div
-          className={`h-full ${timeLeft < 2000 ? "bg-blood" : "bg-gold"}`}
-          style={{ width: `${(timeLeft / DURATION) * 100}%` }}
-        />
-      </div>
+      <Meter
+        ratio={timeLeft / DURATION}
+        fill={timeLeft < 2000 ? "bg-blood" : "bg-gold"}
+        className="relative w-full max-w-lg h-2 border-2 border-paper/40 my-3"
+      />
 
       {/* 相手の煽り */}
       <div className="relative panel text-ink p-4 max-w-lg w-full mb-5">
@@ -108,7 +109,6 @@ export function Tanka({
               disabled={reveal}
               onClick={() => finish(i)}
               className={`text-left p-3 rounded-sm border-3 font-bold text-ink transition ${cls}`}
-              style={{ borderWidth: 3 }}
             >
               <span className="inline-block w-6 font-black text-blood">{i + 1}.</span>
               {o.text}

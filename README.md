@@ -84,10 +84,14 @@ app/
   api/{save,load,ranking}/     … Supabase 読み書き（service role、未設定時はno-op）
 components/
   Title, Narration, WorldMap, Encounter,
-  Menchi, Tanka, Brawl(Canvas), Result, Loadout, Ranking, Hud
+  Menchi, Tanka, Brawl, Result, Loadout, Ranking, Hud
+  Meter                        … 平和度/男気/タイマー共通の枠付きゲージ
+  brawl/render.ts              … 喧嘩画面の Canvas 描画（BrawlState を読むだけ）
 lib/
   game/{types,data,engine}.ts  … 純粋ロジック（不変システムの数値設計）
+  game/brawl.ts                … 喧嘩シミュレーション（戦闘バランス定数もここ）
   supabase/server.ts           … サーバ専用 Supabase クライアント
+  supabase/players.ts          … knk_players 行 ⇔ PlayerState の変換
   storage.ts, playerId.ts      … クラウド⇔localStorage 抽象化
 supabase/schema.sql            … knk_ スキーマ
 ```

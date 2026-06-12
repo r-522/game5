@@ -25,7 +25,6 @@ function TechCard({
       className={`text-left p-3 rounded-sm border-3 transition ${
         selected ? "bg-gold border-ink shadow-[3px_3px_0_0_#0a0908]" : "bg-white/70 border-ink/30"
       } ${disabled ? "opacity-40 cursor-not-allowed" : "hover:border-ink"}`}
-      style={{ borderWidth: 3 }}
     >
       <div className="flex justify-between items-baseline">
         <span className="font-black">{t.name}</span>

@@ -7,6 +7,9 @@ export default {
   ],
   theme: {
     extend: {
+      borderWidth: {
+        3: "3px",
+      },
       colors: {
         ink: "#0a0908",
         paper: "#f4f1ea",

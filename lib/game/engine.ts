@@ -124,6 +124,27 @@ export function allCleared(player: PlayerState): boolean {
 /** 男気が高いほどメンチビームが強い（不変システム：威圧の源泉は男気）。 */
 export const menchiPower = (player: PlayerState) => 1 + player.otokogi / 100;
 
+/** メンチビームの調整値。pos は 0..100 のせめぎ合い位置（50 が中央）。 */
+export const MENCHI = {
+  DURATION_MS: 4500,
+  WIN_POS: 82, // ここまで押し込めばメンチ勝ち
+  LOSE_POS: 18, // ここまで押し返されたら睨み負け
+  RESULT_DELAY_MS: 700,
+};
+
+/** 連打1回で押し込む量。 */
+export const menchiTapPush = (player: PlayerState) => 5.5 * menchiPower(player);
+
+/** 相手が押し返してくる速さ（pos/秒）。手が早い相手ほど強い。 */
+export const menchiEnemyRate = (enemy: Enemy, isBoss: boolean) =>
+  (isBoss ? 17 : 11) + enemy.power * 0.5;
+
+// ── タンカバトル ───────────────────────────────────────────────────────
+export const TANKA = {
+  DURATION_MS: 6000,
+  RESULT_DELAY_MS: 950,
+};
+
 // ── 勝敗を状態に反映 ───────────────────────────────────────────────────
 export function applyDuelResult(
   player: PlayerState,
@@ -150,7 +171,7 @@ export function applyDuelResult(
     };
   }
 
-  // ── 勝利時の男気増減（不変システム：正々堂々で上がり、shabaい手で下がる） ──
+  // ── 勝利時の男気増減（不変システム：正々堂々で上がり、シャバい手で下がる） ──
   otokogiDelta += 6;
   if (ctx.cheapShot) {
     otokogiDelta -= 18;
