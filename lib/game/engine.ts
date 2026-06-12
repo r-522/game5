@@ -171,7 +171,7 @@ export function applyDuelResult(
     };
   }
 
-  // ── 勝利時の男気増減（不変システム：正々堂々で上がり、shabaい手で下がる） ──
+  // ── 勝利時の男気増減（不変システム：正々堂々で上がり、シャバい手で下がる） ──
   otokogiDelta += 6;
   if (ctx.cheapShot) {
     otokogiDelta -= 18;

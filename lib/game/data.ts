@@ -29,7 +29,7 @@ const GENERIC_PROVOCATIONS: Provocation[] = [
     ],
   },
   {
-    taunt: "ここはオレらの縄張りだ、shabaいガキは帰んな！",
+    taunt: "ここはオレらの縄張りだ、シャバいガキは帰んな！",
     options: [
       { text: "縄張り？ 今日でテメエの代は終わりだ", correct: true, ura: true },
       { text: "知らずに入ってごめんなさい", correct: false },
@@ -98,7 +98,7 @@ export const ENEMIES: Enemy[] = [
   },
   {
     id: "boss_kyuukousha", name: "修羅", title: "八つ裂きの修羅", maxHp: 232, power: 16, attackMs: 1040, windupMs: 500, isBoss: true,
-    bark: "この廃校が…オレの墓standだ", provocations: [
+    bark: "この廃校が…オレの墓場だ", provocations: [
       { taunt: "番長なんてもう流行らねえ。お前も滅びる側だ！", options: [
         { text: "滅びる美学ってのも、悪かねえ", correct: true, ura: true },
         { text: "流行ってほしい…", correct: false },
