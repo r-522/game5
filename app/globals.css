@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: #0a0908;
+  color: #f4f1ea;
+  font-family: "Yu Gothic", "YuGothic", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "Meiryo", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+/* ── ボタン ── */
+.btn-knk {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  padding: 0.7rem 1.2rem;
+  border: 3px solid #0a0908;
+  border-radius: 3px;
+  background: #ffc300;
+  color: #0a0908;
+  box-shadow: 4px 4px 0 0 #0a0908;
+  cursor: pointer;
+  transition: transform 0.05s, box-shadow 0.05s, opacity 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  user-select: none;
+}
+.btn-knk:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.btn-knk:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn-dark {
+  background: #0a0908;
+  color: #f4f1ea;
+  border-color: #f4f1ea;
+  box-shadow: 4px 4px 0 0 #c1121f;
+}
+.btn-blood {
+  background: #c1121f;
+  color: #fff;
+  border-color: #0a0908;
+  box-shadow: 4px 4px 0 0 #0a0908;
+}
+
+/* ── 漫画パネル ── */
+.panel {
+  background: #f4f1ea;
+  color: #0a0908;
+  border: 4px solid #0a0908;
+  border-radius: 3px;
+  box-shadow: 8px 8px 0 0 #000;
+}
+.stamp {
+  display: inline-block;
+  border: 4px solid #c1121f;
+  color: #c1121f;
+  font-weight: 900;
+  padding: 0.2rem 0.7rem;
+  transform: rotate(-8deg);
+  border-radius: 6px;
+  letter-spacing: 0.1em;
+}
+.halftone {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.22) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+}
+.speed-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 2.4deg,
+    rgba(0, 0, 0, 0.16) 2.6deg,
+    transparent 3deg
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+.fade-in {
+  animation: fadeIn 0.5s ease both;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.text-stroke {
+  -webkit-text-stroke: 2px #0a0908;
+  paint-order: stroke fill;
+}
+.no-tap-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
